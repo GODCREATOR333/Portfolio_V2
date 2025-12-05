@@ -95,7 +95,7 @@ const FEATURED_PROJECT = {
   year: "2024-Present",
   links: [
     { label: "GitHub", url: "https://github.com/godcreator333" },
-    { label: "Paper (Draft)", url: "#" },
+    { label: "Paper (In Progress)", url: "#" },
   ],
   highlight: "Sub-mm accuracy on ₹3k budget",
   status: "Active Development",
@@ -316,7 +316,7 @@ const Navigation = ({
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
         {/* Logo / Brand */}
         <div
           className="font-bold text-lg tracking-tight cursor-pointer z-50"
@@ -421,7 +421,7 @@ const Navigation = ({
 };
 
 const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
-  <section className="relative pt-12 md:pt-20 pb-16 max-w-5xl mx-auto px-6">
+  <section className="relative pt-12 md:pt-20 pb-16 max-w-6xl mx-auto px-6">
     <div className="grid md:grid-cols-3 gap-12 items-start">
       <div className="md:col-span-2 space-y-8">
         {/* Quick Badge Row */}
@@ -466,10 +466,19 @@ const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
         <div className="flex flex-wrap gap-3 pt-2">
           <button
             onClick={onViewProjects}
-            className="px-6 py-2.5 bg-zinc-900 text-white rounded-md text-sm font-semibold hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-200/50"
+            className="px-5 py-2 bg-zinc-900 text-white rounded-md text-sm font-semibold hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-200/50 "
           >
             View Projects
           </button>
+
+          <button
+            onClick={() => window.open('/Resume/Hari_Preetham_CV-1.pdf', '_blank')}
+            className="px-5 py-2 bg-zinc-900 text-white rounded-md text-sm font-semibold hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-200/50 "
+          >
+            View Resume
+          </button>
+
+
           <a
             href={SITE_DATA.linkedin}
             target="_blank"
@@ -491,7 +500,7 @@ const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
 
       {/* Terminal / System Log */}
       <div className="relative hidden md:block mt-8">
-        <div className="absolute -inset-1 bg-gradient-to-r from-zinc-600 to-zinc-800 rounded-lg blur opacity-20"></div>
+        <div className="absolute -inset-1 bg-linear-to-r from-zinc-600 to-zinc-800 rounded-lg blur opacity-20"></div>
         <div className="relative bg-zinc-950 rounded-lg border border-zinc-800 overflow-hidden shadow-2xl font-mono text-xs">
           <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
             <span className="text-zinc-500">root@sys-eng:~# /dev/ttyUSB0</span>
@@ -551,7 +560,7 @@ const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
 );
 
 const About = ({ onPlay }: { onPlay: (videos: string[]) => void }) => (
-  <section className="max-w-5xl mx-auto px-6 py-12">
+  <section className="max-w-6xl mx-auto px-6 py-12">
     <div className="grid md:grid-cols-12 gap-12">
       {/* Left Column: Bio & Skills */}
       <div className="md:col-span-8 space-y-12">
