@@ -260,14 +260,21 @@ const Navigation = ({
   activeSection: string;
   setActiveSection: (section: string) => void;
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const sections = ["About", "Projects", "Contact"];
 
   return (
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
       <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        
+        {/* Logo / Brand */}
         <div 
-          className="font-bold text-lg tracking-tight cursor-pointer"
-          onClick={() => setActiveSection("about")}
+          className="font-bold text-lg tracking-tight cursor-pointer z-50"
+          onClick={() => {
+            setActiveSection("about");
+            setIsOpen(false);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
         >
           {SITE_DATA.name}
           <span className="hidden sm:inline text-zinc-400 font-normal mx-2">/</span>
@@ -275,7 +282,9 @@ const Navigation = ({
             SYS_ENG
           </span>
         </div>
-        <div className="flex gap-6">
+
+        {/* Desktop Menu (Hidden on Mobile) */}
+        <div className="hidden md:flex gap-6">
           {sections.map((section) => (
             <button
               key={section}
@@ -290,10 +299,55 @@ const Navigation = ({
             </button>
           ))}
         </div>
+
+        {/* Mobile Hamburger Button (Visible on Mobile) */}
+        <button 
+            className="md:hidden p-2 text-zinc-600 hover:text-zinc-900 z-50"
+            onClick={() => setIsOpen(!isOpen)}
+        >
+            {isOpen ? (
+                // Close Icon (X)
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            ) : (
+                // Hamburger Icon
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            )}
+        </button>
+
+        {/* Mobile Menu Dropdown */}
+        {isOpen && (
+            <div className="absolute top-16 left-0 w-full bg-white border-b border-zinc-200 shadow-xl md:hidden flex flex-col animate-in slide-in-from-top-5 duration-200">
+                {sections.map((section) => (
+                    <button
+                        key={section}
+                        onClick={() => {
+                            setActiveSection(section.toLowerCase());
+                            setIsOpen(false);
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                        }}
+                        className={`text-left px-6 py-4 text-sm font-medium border-b border-zinc-50 transition-colors ${
+                            activeSection === section.toLowerCase()
+                                ? "bg-zinc-50 text-blue-600"
+                                : "text-zinc-600 hover:bg-zinc-50"
+                        }`}
+                    >
+                        {section}
+                    </button>
+                ))}
+            </div>
+        )}
       </div>
     </nav>
   );
 };
+
 
 const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
   <section className="relative pt-12 md:pt-20 pb-16 max-w-5xl mx-auto px-6">
