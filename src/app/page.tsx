@@ -370,8 +370,8 @@ const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
 
         <div className="space-y-4">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 leading-[1.1]">
-            <span className="block text-xl md:text-2xl font-medium text-zinc-500 mb-2 tracking-normal">
-              Hi, I'm <span className="text-zinc-900">{SITE_DATA.name}</span>.
+            <span className="block text-xl md:text-2xl font-medium text-zinc-800 mb-2 tracking-normal">
+              Hi, I'm <span className="text-zinc-800">{SITE_DATA.name}</span>.
             </span>
             From Algorithms <br />
             <span className="bg-clip-text text-zinc-800">
