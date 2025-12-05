@@ -20,6 +20,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        {/* Load Zilla Slab and Nunito Sans from Google Fonts */}
+        <link
+          href="https://fonts.googleapis.com/css?family=Zilla+Slab:400,700|Nunito+Sans:400,600,700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body suppressHydrationWarning={true}>
         {children}
       </body>

@@ -1,144 +1,256 @@
 "use client";
 
-import { BLOG_POSTS } from "./blog/blogData";
-import { BlogList } from "./blog/BlogList";
-import { BlogPost as BlogPostComponent } from "./blog/BlogPost";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 // ============================================
-// DATA SECTION - S Hari Preetham
+// TYPES & INTERFACES
+// ============================================
+
+interface Link {
+  label: string;
+  url: string;
+}
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tags: string[];
+  image: string;
+  year: string;
+  links: Link[];
+  highlight?: string;
+  status?: string;
+  videos?: string[]; // Added video support here
+}
+
+// ============================================
+// DATA SECTION
 // ============================================
 
 const SITE_DATA = {
   name: "S Hari Preetham",
   title: "Robotics & Mechatronics Engineer",
-  tagline:
-    "Building precision systems from first principles—where control theory meets hardware reality",
+  tagline: "Building precision systems from first principles.",
+  degree: "B.Tech + M.Tech (Dual Degree) in Mechanical Engineering",
+  specialization: "Advanced Manufacturing Systems",
+  university: "JNTU Hyderabad (2021-2026)",
   email: "haripreetham.jntuh@gmail.com",
   phone: "+91 7013589964",
   github: "https://github.com/godcreator333",
   linkedin: "https://www.linkedin.com/in/hari-preetham-934789201/",
   location: "Hyderabad, India",
-  bio: `I'm a mechanical engineer obsessed with building robots that work in the real world. My work spans precision mechatronics, real-time control systems, and computer vision—turning math and physics into machines that sense, adapt, and act reliably. Currently developing a laser-based weeding system with sub-millimeter accuracy using salvaged hard drive actuators.`,
-
+  bio: `I'm a mechanical engineer obsessed with building robots that work in the real world. My work spans precision mechatronics, real-time control systems, and computer vision—turning math and physics into machines that sense, adapt, and act reliably. I can combine mechanical engineering fundamentals with low-level software to model, control, or optimize real machinery.`,
+  
   currently: {
-    building: "Laser weeding robot with active vibration compensation",
-    reading: "Papers on visual-inertial odometry and MPC",
-    obsessed: "Fourier transforms, SpaceX Starship, and sub-mm precision",
+    building: "Laser weeding robot (Active Vibration Compensation)",
+    reading: "Forward/Inverse Kinematics, Coordinate tranformations",
+    obsessed: "Control theory, Starship, Sub-mm precision",
   },
 
-  research_interests: [
-    "Human-Robot Collaboration",
-    "Precision Mechatronics & Optical Systems",
-    "Real-Time Control (PID, LQR, MPC)",
-    "Visual-Inertial Sensor Fusion",
-    "Space Robotics & Aerospace Manufacturing",
-    "System Identification & Modeling",
-  ],
+  skills: {
+    hardware: ["SolidWorks", "Fusion 360", "PCB Design", "3D Printing", "Sensors & Actuators"],
+    firmware: ["C/C++", "Arduino", "STM32", "ESP32", "Serial/I2C/SPI"],
+    software: ["Python", "ROS2", "Linux (RT)", "OpenCV", "PyTorch/YOLO", "Docker"],
+    theory: ["Control Systems (PID/LQR)", "Kinematics", "System ID", "Signal Processing"],
+  },
 
-  beliefs: [
-    "Hardware is hard—that's exactly why it's worth doing",
-    "The best engineering is invisible until it breaks",
-    "Sub-millimeter precision or bust",
-    "If SpaceX can catch rockets, I can debug this sensor",
-    "When tools don't exist, build them. When expertise is lacking, acquire it.",
-    "Math doesn't lie, but sensors do—always verify",
-  ],
+  library: [
+    { title: "Robotics,Vision and Control", author: "Peter Corke", type: "Textbook" },
+    { title: "Kalman Filter", author: "Research Papers", type: "Current read" },
+  ]
 };
 
-const PROJECTS = [
+const FEATURED_PROJECT = {
+  id: 0,
+  title: "Laser-Based Precision Weeder",
+  role: "Current Focus",
+  description:
+    "End-to-end mechatronics system with custom 2-axis galvanometer scanners built from salvaged HDD voice coil motors. Implements visual-inertial fusion and MPC for line-of-sight stabilization targeting ≤0.5mm accuracy.",
+  tags: ["Mechatronics", "Comp Vision", "Control Theory", "C++"],
+  videos: ["/videos/open_loop_slow.mp4", "/videos/Physics_engine.webm"],
+  image: "/images/spectra.jpeg",
+  year: "2024-Present",
+  links: [
+    { label: "GitHub", url: "https://github.com/godcreator333" },
+    { label: "Paper (Draft)", url: "#" },
+  ],
+  highlight: "Sub-mm accuracy on ₹3k budget",
+  status: "Active Development",
+};
+
+// 1. FREELANCE / CONSULTING PROJECTS
+const FREELANCE_WORK: Project[] = [
   {
-    id: 1,
-    title: "Laser-Based Precision Weeding System",
+    id: 101,
+    title: "Smart Vending Edge AI (O2 Labs)",
     description:
-      "Developing a full-stack mechatronics system with custom 2-axis galvanometer scanners built from salvaged HDD voice coil motors (₹3k budget). Implementing visual-inertial fusion (Kalman filtering), YOLOv8-based weed detection, and comparative control (PID vs LQR vs MPC) for real-time line-of-sight stabilization targeting ≤0.5mm accuracy at 50cm.",
-    tags: [
-      "Mechatronics",
-      "Computer Vision",
-      "Control Theory",
-      "Sensor Fusion",
-      "Real-Time Systems",
-    ],
-    image: "/images/spectra.jpeg",
-    year: "2024-Present",
-    links: [
-      { label: "GitHub", url: "https://github.com/godcreator333" },
-      { label: "Paper (In Progress)", url: "#" },
-    ],
-    highlight: "Sub-mm precision on ₹3k budget",
-    status: "Active Development",
+      "Freelance Machine Learning Engineer. Developed deployed a POC for smart vending machine application using YOLO & SAM2 for object detection,segmentation, and classification. Optimized Nvidia Jetson edge workflows with Preempt RT dual-kernel strategies, reducing inference latency.",
+    tags: ["Freelance", "Nvidia Jetson","YOLOv8"],
+    videos: ["/videos/Qwen2-VL-Vending.webm"],
+    image: "/images/smart_vending.png",
+    year: "Aug 2024",
+    links: [],
+    highlight: "Developed Commercial Solution",
   },
   {
-    id: 2,
-    title: "ROS2_E2E Visual Processor",
+    id: 102,
+    title: "Healthcare CMS Platform (Healtour)",
     description:
-      "Open-source real-time vision stack for robotics. Integrated YOLOv8 with ROS2, CUDA optimization, and WebRTC for ~15ms inference latency on Jetson. Implemented EKF-SLAM for navigation. Tuned for deterministic performance using Linux Preempt_RT kernel.",
-    tags: ["ROS2", "Computer Vision", "CUDA", "Real-Time Linux", "SLAM"],
+      "Head of Development (Freelance). Built and deployed a CMS platform with advanced search/filter for treatments, doctors, and hospitals.Added features: keyword search, live chat, customizable webpages, automated confirmations, bulkupload/export.Developed a wellness e-commerce platform with Razorpay integration and heatmap analytics for userbehavior.",
+    tags: ["Freelance", "System Design", "PHP/SQL", "Analytics"],
+    image: "/images/healtour.jpeg",
+    year: "May 2024",
+    links: [{ label: "Live Site", url: "https://healtourin.com/" }],
+    highlight: "Head of Development",
+  },
+];
+
+// 2. PERSONAL & RESEARCH PROJECTS
+const PERSONAL_PROJECTS: Project[] = [
+  {
+    id: 201,
+    title: "Newsly - AI Verification Agent",
+    description:
+      "Newsly is a self-hosted, AI-powered news aggregation and verification platform designed to combat misinformation and promote accountability. By leveraging a multi-agent system, Newsly scrapes news from various sources, cross-verifies the information, and generates reliable articles and podcasts. The system is designed to ensure transparency in reporting by tracking statements from politicians, crime justice statuses, and other critical societal topics.",
+    tags: ["Autogen", "LLMs", "RAG", "Docker", "Python"],
+    image: "/images/newsly.png",
+    year: "2024",
+    links: [{ label: "Github", url: "https://github.com/GODCREATOR333/Newsly" }],
+    highlight: "Multi-Agent System",
+  },
+  {
+    id: 202,
+    title: "Instagram Multimodal Search",
+    description:
+      "Vector search engine for saved social media content. Integrates SuperDuperDB with OpenAI CLIP to generate multimodal embeddings, allowing users to search their saved images/videos using natural language descriptions.",
+    tags: ["OpenAI CLIP", "Vector DB", "MongoDB", "Python"],
+    image: "/images/insta.png",
+    year: "2024",
+    links: [{ label: "Github", url: "https://github.com/GODCREATOR333/Instagram_Vector_Search" }],
+    highlight: "Vector Search Engine",
+  },
+  {
+    id: 203,
+    title: "ROS2 Visual Processor",
+    description:
+      "Real-time vision stack for robotics. Integrated YOLOv8 with ROS2 and WebRTC for ~15ms inference latency for remote operated robots to transmit video feed and perform realtime object detection and segmentation.",
+    tags: ["ROS2", "CUDA", "Real-Time Linux", "SLAM"],
     image: "/images/ros2_e2e.png",
+    videos: ["/videos/ros2.mp4"], 
     year: "2024",
     links: [
       {
-        label: "GitHub",
-        url: "https://github.com/godcreator333/ROS2_E2E_visual_processor",
+        label: "Github",
+        url: "https://github.com/GODCREATOR333/ROS2_E2E_VisualProcessor",
       },
     ],
-    highlight: "15ms latency on edge hardware",
+    highlight: "YOLO on ROS2",
   },
   {
-    id: 3,
-    title: "DIY Motion Capture System",
+    id: 204,
+    title: "Simulation of Aero-theromodynamic parameters for Missile Applications (DRDO)",
     description:
-      "Built outdoor motion capture setup using high-speed PS3 Eye cameras for system identification of laser weeding robot. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction. Enables precise measurement of galvo and platform dynamics for control tuning.",
-    tags: ["Computer Vision", "Calibration", "3D Reconstruction", "System ID"],
-    image: "/images/mocap.png",
-    year: "2024",
-    links: [{ label: "Details", url: "#" }],
-    highlight: "Research-grade tracking on student budget",
-  },
-  {
-    id: 4,
-    title: "MIRV Aerodynamic Heating (DRDO-DRDL)",
-    description:
-      "Developed Python/SciPy/PyROOT models for reentry vehicle heating analysis. Analyzed 13,000+ data points across 25+ parameters. Improved accuracy vs baseline MATLAB code and generated new insights into transient heat behavior for defense applications.",
-    tags: ["Python", "Scientific Computing", "Aerospace", "PyROOT"],
+      "Research Internship. Developed Python/SciPy/PyROOT models for reentry vehicle heating analysis. Analyzed 13,000+ data points to improve prediction accuracy over baseline MATLAB models.",
+    tags: ["Python", "SciPy", "Aerospace", "PyROOT"],
     image: "/images/drdo.png",
     year: "2023",
-    links: [{ label: "GitHub", url: "https://github.com/godcreator333" }],
-    highlight: "13k+ data points analyzed",
+    links: [{ label: "Github", url: "https://github.com/GODCREATOR333/Simulation_Aerodynamic_Heating" }],
+    highlight: "Defense Research",
+  },
+  {
+    id: 205,
+    title: "DIY Motion Capture",
+    description:
+      "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction of robot dynamics.",
+    tags: ["Computer Vision", "Calibration", "System ID"],
+    image: "/images/mocap.png",
+    year: "2023",
+    links: [],
+    highlight: "Research Tool",
+  },
+  {
+  id: 206,
+    title: "Quadruped Spider Robot",
+    description:
+      "This project involves the design and implementation of a quadruped spider robot controlled by a mobile phone using Bluetooth technology. The robot uses an Arduino Uno microcontroller, servo motors, and inverse kinematics to achieve stable locomotion through gait generation.",
+    tags: ["Robotics", "Kinematics", "Arduino",],
+    videos: ["/videos/robot.mp4"], 
+    image: "/images/robot.png", 
+    year: "2023",
+    links: [],
+    highlight: "Bluetooth controlled robot",
+  },
+  {
+    id: 207,
+    title: "Enhancement of 3D Printed PLA via Chemical Vapor Treatment",
+    description:
+      "Bachelor’s Thesis. Investigated acetone, Dichloromethane (DCM), and chloroform vapor treatments on FDM 3D-printed PLA. Achieved 40% improvement in surface finish and 15% increase in tensile strength (UTM). Simulated thermal and fluid flow conditions in ANSYS to optimize treatment uniformity.",
+    tags: ["ANSYS", "Material Science", "3D Printing", "Research"],
+    image: "/images/cvt.jpeg",
+    year: "2024-2025",
+    links: [],
+    highlight: "Chemical Vapor Treatment",
   },
 ];
 
 // ============================================
-// ANIMATED BACKGROUND COMPONENTS
+// SHARED UI COMPONENTS
 // ============================================
 
-const MathEquations = () => {
-  const equations = [
-    "X(ω) = ∫ x(t)e^(-iωt)dt",
-    "ẋ = Ax + Bu",
-    "J = ∫(x^T Qx + u^T Ru)dt",
-    "K_p e(t) + K_i ∫e(τ)dτ + K_d de/dt",
-    "||x - x*|| → 0 as t → ∞",
-  ];
+const GridBackground = () => (
+  <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+    <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)] opacity-20" />
+  </div>
+);
 
-  const [currentEq, setCurrentEq] = useState(0);
+const SectionHeading = ({ title, icon }: { title: string; icon?: string }) => (
+  <div className="flex items-center gap-3 mb-8 border-b border-zinc-200 pb-4">
+    {icon && <span className="text-xl">{icon}</span>}
+    <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-zinc-900 font-sans">
+      {title}
+    </h2>
+  </div>
+);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentEq((prev) => (prev + 1) % equations.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
+// ============================================
+// VIDEO MODAL COMPONENT
+// ============================================
 
-  return (
-    <div className="absolute top-20 right-8 text-slate-400 font-mono text-sm opacity-20 transition-opacity duration-1000">
-      {equations[currentEq]}
+const VideoModal = ({ videos, onClose }: { videos: string[]; onClose: () => void }) => (
+  <div 
+    className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+    onClick={onClose}
+  >
+    <div 
+      className="relative w-full max-w-5xl bg-zinc-900 rounded-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="flex justify-between items-center p-4 border-b border-zinc-800 bg-zinc-900">
+        <h3 className="text-white font-mono text-sm">Media Player</h3>
+        <button onClick={onClose} className="text-zinc-400 hover:text-white transition-colors">
+          ✕ Close
+        </button>
+      </div>
+      
+      <div className={`overflow-y-auto p-4 bg-black grid gap-4 ${videos.length > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'}`}>
+        {videos.map((vid, i) => (
+          <div key={i} className="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900">
+             <video 
+                src={vid} 
+                controls 
+                autoPlay={i === 0} 
+                className="w-full h-auto"
+             />
+          </div>
+        ))}
+      </div>
     </div>
-  );
-};
+  </div>
+);
 
 // ============================================
-// COMPONENTS
+// MAIN SECTIONS
 // ============================================
 
 const Navigation = ({
@@ -148,584 +260,503 @@ const Navigation = ({
   activeSection: string;
   setActiveSection: (section: string) => void;
 }) => {
-  const sections = ["About", "Projects", "Blog", "Contact"];
+  const sections = ["About", "Projects", "Contact"];
 
   return (
-    <nav className="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-slate-900">
-              {SITE_DATA.name}
-            </h1>
-            <p className="text-xs text-slate-500 font-mono">
-              Building things that actually work
-            </p>
-          </div>
-          <div className="flex gap-8">
-            {sections.map((section) => (
-              <button
-                key={section}
-                onClick={() => setActiveSection(section.toLowerCase())}
-                className={`text-sm font-medium transition-colors relative ${
-                  activeSection === section.toLowerCase()
-                    ? "text-slate-900"
-                    : "text-slate-500 hover:text-slate-900"
-                }`}
-              >
-                {section}
-                {activeSection === section.toLowerCase() && (
-                  <div className="absolute -bottom-4 left-0 right-0 h-0.5 bg-slate-900" />
-                )}
-              </button>
-            ))}
-          </div>
+    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div 
+          className="font-bold text-lg tracking-tight cursor-pointer"
+          onClick={() => setActiveSection("about")}
+        >
+          {SITE_DATA.name}
+          <span className="hidden sm:inline text-zinc-400 font-normal mx-2">/</span>
+          <span className="hidden sm:inline font-mono text-xs text-zinc-500 bg-zinc-100 px-2 py-1 rounded">
+            SYS_ENG
+          </span>
+        </div>
+        <div className="flex gap-6">
+          {sections.map((section) => (
+            <button
+              key={section}
+              onClick={() => setActiveSection(section.toLowerCase())}
+              className={`text-sm font-medium transition-all ${
+                activeSection === section.toLowerCase()
+                  ? "text-black underline underline-offset-4 decoration-2 decoration-blue-600"
+                  : "text-zinc-500 hover:text-zinc-900"
+              }`}
+            >
+              {section}
+            </button>
+          ))}
         </div>
       </div>
     </nav>
   );
 };
 
-const Hero = () => (
-  <section className="relative max-w-6xl mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center z-10">
-    {/* Left: Text */}
-    <div>
-      <h1 className="text-5xl md:text-6xl font-bold text-slate-900 mb-4">
-        {SITE_DATA.name}
-      </h1>
-      <p className="text-2xl text-slate-700 font-medium mb-4">
-        {SITE_DATA.title}
-      </p>
-      <p className="text-lg text-slate-500 mb-6 italic">{SITE_DATA.tagline}</p>
-
-      <div className="flex flex-wrap gap-4">
-        <a
-          href="#projects"
-          onClick={(e) => {
-            e.preventDefault();
-            document
-              .getElementById("projects")
-              ?.scrollIntoView({ behavior: "smooth" });
-          }}
-          className="px-5 py-3 bg-slate-900 text-white rounded-full text-sm font-medium hover:bg-slate-700 transition-colors"
-        >
-          View Projects
-        </a>
-        <a
-          href={`mailto:${SITE_DATA.email}`}
-          className="px-5 py-3 border border-slate-900 text-slate-900 rounded-full text-sm font-medium hover:bg-slate-900 hover:text-white transition-colors"
-        >
-          Contact Me
-        </a>
-      </div>
-      <div className="mb-12 mt-5">
-        {/* Status Bar */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-gray-500 rounded-full text-sm">
-          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-          <span className="text-green-700 font-medium">System Nominal</span>
-        </div>
-      </div>
-    </div>
-
-    {/* Right: Image */}
-    <div className="relative">
-      <div className=" w-full rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-        <img
-          src="/images/art2.jpg"
-          alt="art-image-retro-futurism"
-          className="w-full h-full object-cover"
-        />
-      </div>
-      {/* Subtle overlay equation or label */}
-      <div className="absolute bottom-4 right-4 text-xs text-white bg-slate-900/60 px-3 py-1.5 rounded-full font-mono">
-        ẋ = Ax + Bu
-      </div>
-    </div>
-  </section>
-);
-
-const About = () => (
-  <section className="max-w-5xl mx-auto px-6 py-20 relative z-10">
-    <MathEquations />
-    {/* Bio */}
-    <div className="prose prose-lg prose-slate max-w-none mb-12">
-      <p className="text-lg text-slate-700 leading-relaxed">{SITE_DATA.bio}</p>
-    </div>
-
-    {/* Currently Section */}
-    <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 rounded-xl border border-slate-200 mb-12">
-      <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
-        <span className="text-2xl">⚡</span> Currently
-      </h3>
-      <div className="grid md:grid-cols-3 gap-6">
-        <div>
-          <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">
-            Building
-          </p>
-          <p className="text-sm text-slate-700 font-medium">
-            {SITE_DATA.currently.building}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">
-            Reading
-          </p>
-          <p className="text-sm text-slate-700 font-medium">
-            {SITE_DATA.currently.reading}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">
-            Obsessed With
-          </p>
-          <p className="text-sm text-slate-700 font-medium">
-            {SITE_DATA.currently.obsessed}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {/* Two Column Layout */}
-    <div className="grid md:grid-cols-2 gap-8 mb-12">
-      {/* Research Interests */}
-      <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-        <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
-          <span className="text-2xl">🔬</span> Research Interests
-        </h3>
+const Hero = ({ onViewProjects }: { onViewProjects: () => void }) => (
+  <section className="relative pt-12 md:pt-20 pb-16 max-w-5xl mx-auto px-6">
+    <div className="grid md:grid-cols-3 gap-12 items-start">
+      <div className="md:col-span-2 space-y-8">
+        
+        {/* Quick Badge Row */}
         <div className="flex flex-wrap gap-2">
-          {SITE_DATA.research_interests.map((interest, idx) => (
-            <span
-              key={idx}
-              className="px-3 py-2 bg-slate-50 text-slate-700 text-sm rounded-lg border border-slate-200 hover:border-slate-300 transition-colors"
-            >
-              {interest}
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-50 border border-green-200 rounded-full text-xs font-mono text-green-700">
+                <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                </span>
+                Open to Work
+            </div>
+            <div className="inline-flex items-center px-3 py-1 bg-zinc-50 border border-zinc-200 rounded-full text-xs font-mono text-zinc-600">
+                📍 {SITE_DATA.location}
+            </div>
+        </div>
+
+        <div className="space-y-4">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter text-zinc-900 leading-[1.1]">
+            <span className="block text-xl md:text-2xl font-medium text-zinc-500 mb-2 tracking-normal">
+              Hi, I'm <span className="text-zinc-900">{SITE_DATA.name}</span>.
             </span>
-          ))}
+            From Algorithms <br />
+            <span className="bg-clip-text text-zinc-800">
+            to Actuators.
+            </span>
+          </h1>
+          
+          <p className="text-lg md:text-xl text-zinc-600 font-light max-w-lg leading-relaxed">
+            {SITE_DATA.tagline}
+          </p>
+          
+          {/* Degree Highlight */}
+          <div className="flex flex-col gap-1 border-l-2 border-blue-200 pl-4 py-1">
+            <span className="text-sm font-bold text-zinc-900">{SITE_DATA.degree}</span>
+            <span className="text-xs text-zinc-500">{SITE_DATA.specialization} • {SITE_DATA.university}</span>
+          </div>
+        </div>
+
+        {/* Call to Actions */}
+        <div className="flex flex-wrap gap-3 pt-2">
+          <button
+            onClick={onViewProjects}
+            className="px-6 py-2.5 bg-zinc-900 text-white rounded-md text-sm font-semibold hover:bg-zinc-800 transition-colors shadow-lg shadow-zinc-200/50"
+          >
+            View Projects
+          </button>
+          <a
+            href={SITE_DATA.linkedin}
+            target="_blank" 
+            rel="noreferrer"
+            className="px-6 py-2.5 bg-white text-zinc-700 border border-zinc-200 rounded-md text-sm font-semibold hover:bg-zinc-50 hover:text-blue-600 transition-colors flex items-center gap-2"
+          >
+            LinkedIn ↗
+          </a>
+           <a
+            href={SITE_DATA.github}
+            target="_blank" 
+            rel="noreferrer"
+            className="px-6 py-2.5 bg-white text-zinc-700 border border-zinc-200 rounded-md text-sm font-semibold hover:bg-zinc-50 hover:text-black transition-colors flex items-center gap-2"
+          >
+            GitHub ↗
+          </a>
         </div>
       </div>
 
-      {/* Engineering Philosophy */}
-      <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
-        <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
-          <span className="text-2xl">💡</span> Things I Believe
-        </h3>
-        <ul className="space-y-3">
-          {SITE_DATA.beliefs.slice(0, 4).map((belief, idx) => (
-            <li
-              key={idx}
-              className="text-sm text-slate-700 flex items-start gap-2"
-            >
-              <span className="text-slate-400 mt-0.5">→</span>
-              <span>{belief}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-
-    {/* Education */}
-    <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm mb-12">
-      <h3 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
-        <span className="text-2xl">🎓</span> Education
-      </h3>
-      <div>
-        <p className="font-semibold text-slate-900">
-          JNTU Hyderabad - University College of Engineering
-        </p>
-        <p className="text-sm text-slate-600">
-          Integrated Dual Degree (B.Tech + M.Tech) in Mechanical Engineering
-        </p>
-        <p className="text-sm text-slate-500">
-          Specialization: Advanced Manufacturing Systems | 2021 - 2026
-        </p>
-        <p className="text-sm text-slate-500 mt-1">
-          GPA: 7.5 | Top 20% of cohort
-        </p>
-      </div>
-    </div>
-
-    {/* Contact Links */}
-    <div className="flex flex-wrap gap-6">
-      <a
-        href={`mailto:${SITE_DATA.email}`}
-        className="text-sm text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-2"
-      >
-        <span>📧</span> Email
-      </a>
-      <a
-        href={SITE_DATA.github}
-        className="text-sm text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-2"
-      >
-        <span>💻</span> GitHub
-      </a>
-      <a
-        href={SITE_DATA.linkedin}
-        className="text-sm text-slate-600 hover:text-slate-900 transition-colors flex items-center gap-2"
-      >
-        <span>💼</span> LinkedIn
-      </a>
-      <span className="text-sm text-slate-500 flex items-center gap-2">
-        <span>📍</span> {SITE_DATA.location}
-      </span>
-    </div>
-  </section>
-);
-
-const Projects = () => (
-  <section className="max-w-6xl mx-auto px-6 py-16 relative z-10">
-    <div className="mb-12">
-      <h2 className="text-4xl font-bold text-slate-900 mb-3">Projects</h2>
-      <p className="text-lg text-slate-600">
-        End-to-end systems that work in the real world
-      </p>
-    </div>
-
-    <div className="space-y-8">
-      {PROJECTS.map((project) => (
-        <div
-          key={project.id}
-          className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 group"
-        >
-          <div className="grid md:grid-cols-5 gap-0">
-            <div className="md:col-span-2 relative overflow-hidden bg-slate-100 aspect-[3/2] max-h-[400px]">
-  <img
-    src={project.image}
-    alt={project.title}
-    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-  />
-  {project.highlight && (
-    <div className="absolute top-4 left-4 bg-slate-900 text-white text-xs px-3 py-1.5 rounded-full font-medium">
-      {project.highlight}
-    </div>
-  )}
-  {project.status && (
-    <div className="absolute bottom-4 left-4 bg-green-500 text-white text-xs px-3 py-1.5 rounded-full font-medium flex items-center gap-2">
-      <div className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></div>
-      {project.status}
-    </div>
-  )}
-</div>
-
-
-            <div className="md:col-span-3 p-8">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h3 className="text-2xl font-semibold text-slate-900 mb-2 group-hover:text-slate-600 transition-colors">
-                    {project.title}
-                  </h3>
-                  <span className="text-sm text-slate-500 font-mono">
-                    {project.year}
-                  </span>
-                </div>
-              </div>
-
-              <p className="text-slate-700 mb-6 leading-relaxed">
-                {project.description}
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1.5 bg-slate-50 text-slate-700 text-xs rounded-full border border-slate-200 font-medium"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <div className="flex gap-4">
-                {project.links.map((link, idx) => (
-                  <a
-                    key={idx}
-                    href={link.url}
-                    className="text-sm text-slate-900 hover:text-slate-600 font-semibold transition-colors flex items-center gap-1 group/link"
-                  >
-                    {link.label}
-                    <span className="group-hover/link:translate-x-1 transition-transform">
-                      →
-                    </span>
-                  </a>
-                ))}
-              </div>
+      {/* Terminal / System Log */}
+      <div className="relative hidden md:block mt-8">
+        <div className="absolute -inset-1 bg-gradient-to-r from-zinc-600 to-zinc-800 rounded-lg blur opacity-20"></div>
+        <div className="relative bg-zinc-950 rounded-lg border border-zinc-800 overflow-hidden shadow-2xl font-mono text-xs">
+          <div className="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <span className="text-zinc-500">root@sys-eng:~# /dev/ttyUSB0</span>
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+              <div className="w-2.5 h-2.5 rounded-full bg-zinc-700" />
+            </div>
+          </div>
+          <div className="p-6 text-zinc-300 space-y-1.5 leading-relaxed">
+            <div className="flex gap-3">
+              <span className="text-zinc-500">[0.0002]</span>
+              <span>KERNEL: <span className="text-green-500">PREEMPT_RT</span> initialized</span>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-zinc-500">[0.0421]</span>
+              <span>HAL: GPIO initialized. UART baud: <span className="text-blue-400">115200</span></span>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-zinc-500">[0.1550]</span>
+              <span>IMU: BNO055 detected. Calibrating... <span className="text-green-500">OK</span></span>
+            </div>
+             <div className="flex gap-3">
+              <span className="text-zinc-500">[0.1582]</span>
+              <span>IMU: Sigma &lt; 1e-3 rad/s. Bias compensated.</span>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-zinc-500">[0.4020]</span>
+              <span>ROS2: Nodes started: [perception, planner, control]</span>
+            </div>
+            <div className="flex gap-3">
+              <span className="text-zinc-500">[0.8801]</span>
+              <span>CONTROL: MPC Horizon: <span className="text-blue-400">20 steps</span>. Freq: <span className="text-blue-400">1kHz</span></span>
+            </div>
+            <div className="flex gap-3 border-t border-zinc-800 mt-2 pt-2 text-green-400">
+              <span className="text-zinc-500">[1.0000]</span>
+              <span>SYSTEM READY. WAITING FOR COMMAND...</span>
+              <span className="animate-pulse block w-2 h-4 bg-green-500 ml-1"></span>
             </div>
           </div>
         </div>
-      ))}
-    </div>
-
-    {/* Additional Projects Summary */}
-    <div className="mt-12 grid md:grid-cols-3 gap-6">
-      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
-        <h4 className="font-semibold text-slate-900 mb-2">
-          Quadruped Spider Robot
-        </h4>
-        <p className="text-sm text-slate-600 mb-3">
-          Arduino-based quadruped with inverse kinematics for gait generation.
-          Bluetooth control via mobile app.
-        </p>
-        <span className="text-xs text-slate-500">
-          Arduino • Kinematics • 2023
-        </span>
-      </div>
-
-      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
-        <h4 className="font-semibold text-slate-900 mb-2">
-          Newsly - AI Fact Checker
-        </h4>
-        <p className="text-sm text-slate-600 mb-3">
-          Multi-agent LLM system for misinformation detection using RAG pipeline
-          and vector databases.
-        </p>
-        <span className="text-xs text-slate-500">
-          LLMs • RAG • Docker • 2024
-        </span>
-      </div>
-
-      <div className="bg-slate-50 p-6 rounded-xl border border-slate-200">
-        <h4 className="font-semibold text-slate-900 mb-2">
-          Smart Vending System
-        </h4>
-        <p className="text-sm text-slate-600 mb-3">
-          Edge AI system with custom YOLO models on Jetson for real-time product
-          detection.
-        </p>
-        <span className="text-xs text-slate-500">
-          Computer Vision • CUDA • 2024
-        </span>
       </div>
     </div>
   </section>
+);
+
+const About = ({ onPlay }: { onPlay: (videos: string[]) => void }) => (
+  <section className="max-w-5xl mx-auto px-6 py-12">
+    <div className="grid md:grid-cols-12 gap-12">
+      
+      {/* Left Column: Bio & Skills */}
+      <div className="md:col-span-8 space-y-12">
+        
+        {/* Bio Section */}
+        <div>
+            <SectionHeading title="About Me" />
+            <div className="prose prose-zinc max-w-none text-zinc-600 leading-relaxed">
+            <p className="text-lg">{SITE_DATA.bio}</p>
+            </div>
+        </div>
+
+        {/* FEATURED PROJECT SECTION */}
+        <div>
+            <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider mb-6 flex items-center gap-2">
+                <span>👨🏻‍💻</span> Currently Working on....
+            </h3>
+            <div className="bg-white border border-zinc-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+                 <div className="grid md:grid-cols-2 gap-0">
+                    <div className="bg-zinc-100 relative h-48 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200">
+                        <img 
+                            src={FEATURED_PROJECT.image} 
+                            alt={FEATURED_PROJECT.title} 
+                            className="w-full h-full object-cover" 
+                        />
+                        <div className="absolute top-2 left-2 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-full animate-pulse">
+                            In Progess
+                        </div>
+                    </div>
+                    <div className="p-5 flex flex-col justify-between">
+                        <div>
+                            <h4 className="font-bold text-zinc-900 text-lg mb-2">{FEATURED_PROJECT.title}</h4>
+                            <p className="text-xs text-zinc-600 leading-relaxed mb-4">{FEATURED_PROJECT.description}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {FEATURED_PROJECT.tags.map((t, i) => (
+                                <span key={i} className="text-[10px] border border-zinc-200 px-1.5 py-0.5 rounded text-zinc-500">{t}</span>
+                            ))}
+                        </div>
+                        
+                        {/* LINKS SECTION WITH WATCH DEMO BUTTON */}
+                        <div className="flex gap-4 items-center">
+                            {FEATURED_PROJECT.videos && (
+                                <button 
+                                    onClick={() => onPlay(FEATURED_PROJECT.videos!)}
+                                    className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1 bg-white hover:bg-red-100 px-2 py-1 rounded transition-colors"
+                                >
+                                    ▶ Watch Demo
+                                </button>
+                            )}
+                            
+                            {FEATURED_PROJECT.links.map((link, i) => (
+                                <a key={i} href={link.url} className="text-xs font-bold text-zinc-900 hover:text-blue-600 flex items-center gap-1">
+                                    {link.label} ↗
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                 </div>
+            </div>
+        </div>
+
+        {/* The Technical skills */}
+        <div>
+            <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider mb-6 flex items-center gap-2">
+                <span>⚡</span> Technical Skills
+            </h3>
+            <div className="grid sm:grid-cols-2 gap-4">
+                <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-lg">
+                    <h4 className="font-semibold text-zinc-900 text-sm mb-2">Hardware & Electronics</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                        {SITE_DATA.skills.hardware.map((s,i) => (
+                            <span key={i} className="text-xs bg-white px-2 py-1 rounded border border-zinc-200 text-zinc-600">{s}</span>
+                        ))}
+                    </div>
+                </div>
+                <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-lg">
+                    <h4 className="font-semibold text-zinc-900 text-sm mb-2">Firmware & Embedded</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                        {SITE_DATA.skills.firmware.map((s,i) => (
+                            <span key={i} className="text-xs bg-white px-2 py-1 rounded border border-zinc-200 text-zinc-600">{s}</span>
+                        ))}
+                    </div>
+                </div>
+                 <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-lg">
+                    <h4 className="font-semibold text-zinc-900 text-sm mb-2">Robotics Software</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                        {SITE_DATA.skills.software.map((s,i) => (
+                            <span key={i} className="text-xs bg-white px-2 py-1 rounded border border-zinc-200 text-zinc-600">{s}</span>
+                        ))}
+                    </div>
+                </div>
+                <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-lg">
+                    <h4 className="font-semibold text-zinc-900 text-sm mb-2">Theory & Control</h4>
+                    <div className="flex flex-wrap gap-1.5">
+                        {SITE_DATA.skills.theory.map((s,i) => (
+                            <span key={i} className="text-xs bg-white px-2 py-1 rounded border border-zinc-200 text-zinc-600">{s}</span>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+
+      {/* Right Column: Sidebar Stats */}
+      <div className="md:col-span-4 space-y-8">
+        
+        {/* Input/Output */}
+        <div className="bg-white border border-zinc-200 rounded-xl p-6 shadow-sm">
+           <h3 className="font-bold text-zinc-900 mb-4 border-b border-zinc-100 pb-2 flex items-center gap-2">
+            <span>📚</span> Input / Output
+           </h3>
+           <p className="text-xs text-zinc-500 mb-4">Influences and current reading list.</p>
+           <ul className="space-y-3">
+             {SITE_DATA.library.map((book, i) => (
+                <li key={i} className="flex justify-between items-start text-sm">
+                    <div>
+                        <span className="text-zinc-800 font-medium block">{book.title}</span>
+                        <span className="text-zinc-500 text-xs">{book.author}</span>
+                    </div>
+                    <span className="text-[10px] bg-zinc-100 px-1.5 py-0.5 rounded text-zinc-500 font-mono">{book.type}</span>
+                </li>
+             ))}
+           </ul>
+        </div>
+
+        {/* Current Status */}
+        <div className="bg-zinc-900 rounded-xl p-6 text-white shadow-lg">
+             <h3 className="font-bold text-white mb-4 flex items-center gap-2">
+            <span>🚀</span> Status
+           </h3>
+           <div className="space-y-4">
+                <div>
+                    <p className="text-xs text-zinc-400 font-mono mb-1">CURRENTLY BUILDING</p>
+                    <p className="text-sm font-medium">{SITE_DATA.currently.building}</p>
+                </div>
+                <div>
+                    <p className="text-xs text-zinc-400 font-mono mb-1">OBSESSED WITH</p>
+                    <p className="text-sm font-medium">{SITE_DATA.currently.obsessed}</p>
+                </div>
+           </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+);
+
+const Projects = ({ onPlay }: { onPlay: (videos: string[]) => void }) => (
+  <section className="max-w-5xl mx-auto px-6 py-12" id="projects">
+    
+    {/* SECTION 1: FREELANCE */}
+    <div className="mb-16">
+        <SectionHeading title="Freelance & Consulting Work" icon="💼" />
+        <div className="grid gap-8">
+            {FREELANCE_WORK.map((project) => (
+                <ProjectCard key={project.id} project={project} onPlay={onPlay} />
+            ))}
+        </div>
+    </div>
+
+    {/* SECTION 2: PERSONAL / RESEARCH */}
+    <div>
+        <SectionHeading title="Research & Personal Engineering" icon="🔬" />
+        <div className="grid gap-8">
+            {PERSONAL_PROJECTS.map((project) => (
+                <ProjectCard key={project.id} project={project} onPlay={onPlay} />
+            ))}
+        </div>
+    </div>
+
+  </section>
+);
+
+const ProjectCard = ({ project, onPlay }: { project: Project; onPlay: (videos: string[]) => void }) => (
+    <div className="group relative bg-white border border-zinc-200 rounded-lg overflow-hidden hover:border-zinc-400 transition-all duration-200 hover:shadow-md">
+        <div className="grid md:grid-cols-4 gap-0">
+        {/* Image Section */}
+        <div className="md:col-span-1 bg-zinc-100 relative h-56 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200 group-hover:bg-zinc-50 transition-colors">
+            <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-contain transition-all duration-500"
+            />
+        </div>
+
+        {/* Content Section */}
+        <div className="md:col-span-3 p-6 flex flex-col justify-between">
+            <div>
+            <div className="flex justify-between items-start mb-2">
+                <h3 className="text-xl font-bold text-zinc-900 group-hover:text-blue-600 transition-colors">
+                {project.title}
+                </h3>
+                <div className="flex gap-2 shrink-0">
+                {project.highlight && (
+                    <span className="hidden sm:inline-block px-2 py-0.5 bg-yellow-50 text-yellow-800 border border-yellow-200 text-[10px] font-mono rounded-full uppercase tracking-wider">
+                        {project.highlight}
+                    </span>
+                )}
+                <span className="text-xs font-mono text-zinc-400 border border-zinc-100 px-2 py-0.5 rounded">
+                    {project.year}
+                </span>
+                </div>
+            </div>
+            
+            <p className="text-zinc-600 mb-4 text-sm leading-relaxed">
+                {project.description}
+            </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-4 pt-4 border-t border-zinc-50">
+            <div className="flex flex-wrap gap-2">
+                {project.tags.map((tag, idx) => (
+                <div key={idx} className="flex items-center gap-1.5 text-xs text-zinc-500">
+                    <span className={`w-2 h-2 rounded-full ${
+                        tag.includes("Freelance") ? "bg-green-400" :
+                        tag.includes("Vision") || tag.includes("AI") ? "bg-purple-400" :
+                        tag.includes("Control") ? "bg-red-400" :
+                        "bg-blue-400"
+                    }`}></span>
+                    {tag}
+                </div>
+                ))}
+            </div>
+            
+            <div className="flex gap-4 text-sm font-medium">
+                {/* Watch Demo Button - Added here */}
+                {project.videos && project.videos.length > 0 && (
+                    <button 
+                        onClick={() => onPlay(project.videos!)}
+                        className="flex items-center gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded transition-colors"
+                    >
+                        ▶ Watch Demo
+                    </button>
+                )}
+
+                {project.links.map((link, idx) => (
+                <a
+                    key={idx}
+                    href={link.url}
+                    className="flex items-center gap-1 text-zinc-900 hover:text-blue-600 hover:underline underline-offset-2"
+                >
+                    {link.label}
+                    <span className="text-xs">↗</span>
+                </a>
+                ))}
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
 );
 
 const Contact = () => (
-  <section className="max-w-4xl mx-auto px-6 py-16 relative z-10">
-    <div className="mb-12">
-      <h2 className="text-4xl font-bold text-slate-900 mb-3">
-        Let's Build Something
-      </h2>
-      <p className="text-lg text-slate-600">
-        Interested in robotics, control systems, or precision mechatronics?
-        Let's talk.
-      </p>
-    </div>
-
-    <div className="bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 rounded-xl p-10 mb-8">
-      <p className="text-slate-700 mb-8 leading-relaxed text-lg">
-        I'm always interested in discussing research collaborations, robotics
-        projects, or opportunities in human-robot interaction, aerospace
-        manufacturing, and precision systems. Whether you're working on space
-        robotics, want to chat about Fourier transforms, or just watched the
-        latest Starship launch—reach out.
+  <section className="max-w-3xl mx-auto px-6 py-16">
+    <SectionHeading title="Get In Touch" />
+    
+    <div className="bg-white border border-zinc-200 rounded-lg p-8 shadow-sm">
+      <p className="text-lg text-zinc-700 mb-8 leading-relaxed">
+        I'm actively looking for full-time roles in <strong>Robotics, Control Systems, and Mechatronics</strong>. 
+        If you are working on hard engineering problems—space robotics, precision manufacturing, or autonomous systems—I'd love to talk.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-lg border border-slate-200">
-          <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
-            <span>🤝</span> Work with me if...
-          </h3>
-          <ul className="space-y-2 text-sm text-slate-700">
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span>You think precision matters</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span>You've debugged code at 3am and loved it</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span>You believe hardware beats slides</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-green-500 mt-1">✓</span>
-              <span>You watched the Starship catch live</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg border border-slate-200">
-          <h3 className="font-semibold text-slate-900 mb-4 flex items-center gap-2">
-            <span>🚀</span> Dream companies
-          </h3>
-          <div className="flex flex-wrap gap-2 text-xs">
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              SpaceX
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Relativity Space
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Boston Dynamics
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Tesla
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Machina Labs
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Rocket Lab
-            </span>
-            <span className="px-2 py-1 bg-slate-100 text-slate-700 rounded">
-              Formlabs
-            </span>
-          </div>
-        </div>
+      <div className="space-y-4 font-mono text-sm">
+        <a href={`mailto:${SITE_DATA.email}`} className="flex items-center gap-4 p-3 rounded hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-200 group">
+          <span className="text-zinc-400 w-24">EMAIL</span>
+          <span className="text-zinc-900 group-hover:text-blue-600 break-all">{SITE_DATA.email}</span>
+        </a>
+        <a href={SITE_DATA.github} target="_blank" rel="noreferrer" className="flex items-center gap-4 p-3 rounded hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-200 group">
+          <span className="text-zinc-400 w-24">GITHUB</span>
+          <span className="text-zinc-900 group-hover:text-blue-600">github.com/godcreator333</span>
+        </a>
+        <a href={SITE_DATA.linkedin} target="_blank" rel="noreferrer" className="flex items-center gap-4 p-3 rounded hover:bg-zinc-50 transition-colors border border-transparent hover:border-zinc-200 group">
+          <span className="text-zinc-400 w-24">LINKEDIN</span>
+          <span className="text-zinc-900 group-hover:text-blue-600">linkedin.com/in/hari-preetham</span>
+        </a>
       </div>
-    </div>
 
-    <div className="bg-white border border-slate-200 rounded-xl p-8">
-      <h3 className="text-lg font-semibold text-slate-900 mb-6">
-        Contact Information
-      </h3>
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500 w-32 text-sm font-medium">Email</span>
-          <a
-            href={`mailto:${SITE_DATA.email}`}
-            className="text-slate-900 hover:text-slate-600 transition-colors font-mono text-sm"
-          >
-            {SITE_DATA.email}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500 w-32 text-sm font-medium">Phone</span>
-          <a
-            href={`tel:${SITE_DATA.phone}`}
-            className="text-slate-900 hover:text-slate-600 transition-colors font-mono text-sm"
-          >
-            {SITE_DATA.phone}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500 w-32 text-sm font-medium">
-            GitHub
-          </span>
-          <a
-            href={SITE_DATA.github}
-            className="text-slate-900 hover:text-slate-600 transition-colors text-sm"
-          >
-            {SITE_DATA.github.replace("https://", "")}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500 w-32 text-sm font-medium">
-            LinkedIn
-          </span>
-          <a
-            href={SITE_DATA.linkedin}
-            className="text-slate-900 hover:text-slate-600 transition-colors text-sm"
-          >
-            {SITE_DATA.linkedin.replace("https://", "")}
-          </a>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <span className="text-slate-500 w-32 text-sm font-medium">
-            Location
-          </span>
-          <span className="text-slate-700 text-sm">{SITE_DATA.location}</span>
-        </div>
+      <div className="mt-8 pt-8 border-t border-zinc-100">
+        <p className="text-xs text-zinc-500 font-mono">
+            $ echo "Available for relocation: Yes"
+        </p>
       </div>
-    </div>
-
-    <div className="mt-8 p-6 bg-slate-900 text-white rounded-xl">
-      <p className="text-sm font-mono mb-2">$ status --current</p>
-      <p className="text-slate-300 text-sm">
-        Available for internships and research collaborations | Open to
-        relocation | Graduating May 2026
-      </p>
     </div>
   </section>
 );
 
-// Main App
-
-type BlogPost = {
-  id: number;
-  title: string;
-  description: string;
-  tags: string[];
-  image: string;
-  year: string;
-  links: { label: string; url: string }[];
-  highlight?: string;
-  status?: string;
-};
-
-
 export default function App() {
   const [activeSection, setActiveSection] = useState("about");
-  
-  const [activePost, setActivePost] = useState<BlogPost | null>(null);
+  // State for Video Modal
+  const [playingVideos, setPlayingVideos] = useState<string[] | null>(null);
 
+  // Handle browser back button or direct link state
+  useEffect(() => {
+    setActiveSection("about");
+  }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50 relative">
+    <div className="min-h-screen bg-white text-zinc-900 font-sans selection:bg-blue-100 selection:text-blue-900 relative isolate">
+      <GridBackground />
+      
+      {/* Video Modal Renderer */}
+      {playingVideos && (
+        <VideoModal videos={playingVideos} onClose={() => setPlayingVideos(null)} />
+      )}
+
       <Navigation
         activeSection={activeSection}
-        setActiveSection={setActiveSection}
+        setActiveSection={(section) => {
+            setActiveSection(section);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
       />
 
-      {activeSection === "about" && (
-        <>
-          <Hero />
-          <About />
-        </>
-      )}
-      {activeSection === "projects" && <Projects />}
-      {activeSection === "blog" &&
-  (activePost ? (
-    <BlogPostComponent
-    // @ts-ignore
-      post={activePost}
-      onBack={() => setActivePost(null)}
-    />
-  ) : (
-    <BlogList
-  posts={BLOG_POSTS}
-  // @ts-ignore
-  onPostClick={setActivePost}
-/>
-  ))}
-
-      <footer className="border-t border-slate-200 mt-20 relative z-10 bg-white/90 backdrop-blur-sm">
-        <div className="max-w-6xl mx-auto px-6 py-10">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-center md:text-left">
-              <p className="text-sm text-slate-900 font-semibold mb-1">
-                {SITE_DATA.name}
-              </p>
-              <p className="text-xs text-slate-500">
-                © {new Date().getFullYear()} · Built with React · Fourier
-                transforms not included
-              </p>
-            </div>
-            <div className="flex gap-6 text-xs text-slate-500">
-              <a
-                href={SITE_DATA.github}
-                className="hover:text-slate-900 transition-colors"
-              >
-                GitHub
-              </a>
-              <a
-                href={SITE_DATA.linkedin}
-                className="hover:text-slate-900 transition-colors"
-              >
-                LinkedIn
-              </a>
-              <a
-                href={`mailto:${SITE_DATA.email}`}
-                className="hover:text-slate-900 transition-colors"
-              >
-                Email
-              </a>
-            </div>
+      <main className="min-h-[calc(100vh-200px)]">
+        {activeSection === "about" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Hero onViewProjects={() => {
+                setActiveSection("projects");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }} />
+            <About onPlay={setPlayingVideos} />
           </div>
+        )}
+        
+        {activeSection === "projects" && (
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <Projects onPlay={setPlayingVideos} />
+          </div>
+        )}
+
+        {activeSection === "contact" && (
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <Contact />
+            </div>
+        )}
+      </main>
+
+      <footer className="border-t border-zinc-200 bg-white/50 backdrop-blur-sm mt-12">
+        <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500 font-mono">
+          <p>© {new Date().getFullYear()} S Hari Preetham. Built with React.</p>
+          <p>System Status: <span className="text-green-600">Operational</span></p>
         </div>
       </footer>
     </div>
