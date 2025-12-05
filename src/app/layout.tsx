@@ -3,8 +3,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
 
-  title: "Hari Preetham - Robotics Researcher",
-  description: "Robotics researcher portfolio",
+  title: "Hari Preetham - Portfolio",
+  description: "Hari Preetham Portfolio",
     icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

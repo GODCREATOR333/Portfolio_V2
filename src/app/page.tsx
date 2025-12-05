@@ -107,7 +107,7 @@ const FREELANCE_WORK: Project[] = [
     id: 101,
     title: "Smart Vending Edge AI (O2 Labs)",
     description:
-      "Freelance Machine Learning Engineer. Developed deployed a POC for smart vending machine application using YOLO & SAM2 for object detection,segmentation, and classification. Optimized Nvidia Jetson edge workflows with Preempt RT dual-kernel strategies, reducing inference latency.",
+      "Freelance Machine Learning Engineer. Developed & deployed a POC for smart vending machine application using YOLO & SAM2 for object detection,segmentation, and classification. Optimized Nvidia Jetson edge workflows with Preempt RT dual-kernel strategies, reducing inference latency. Experimented with Qwen2-VL model to do video reasoning.",
     tags: ["Freelance", "Nvidia Jetson", "YOLOv8"],
     videos: ["/videos/Qwen2-VL-Vending.webm"],
     image: "/images/smart_vending.png",
@@ -234,7 +234,7 @@ const PERSONAL_PROJECTS: Project[] = [
 // ============================================
 
 const GridBackground = () => (
-  <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem]">
+  <div className="absolute inset-0 -z-10 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-size-[6rem_4rem]">
     <div className="absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_800px_at_100%_200px,#d5c5ff,transparent)] opacity-20" />
   </div>
 );
@@ -260,7 +260,7 @@ const VideoModal = ({
   onClose: () => void;
 }) => (
   <div
-    className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
+    className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
     onClick={onClose}
   >
     <div
