@@ -88,7 +88,7 @@ const FEATURED_PROJECT = {
   title: "Laser-Based Precision Weeder",
   role: "Current Focus",
   description:
-    "End-to-end mechatronics system with custom 2-axis galvanometer scanners built from salvaged HDD voice coil motors. Implements visual-inertial fusion and MPC for line-of-sight stabilization targeting ≤0.5mm accuracy.",
+    "This project developed a real-time, active line-of-sight stabilization and pointing system for precision laser beam steering applications, such as Unmanned Combat Air Systems (UCAS) or agricultural laser weeding. This is achieved by using a custom 2-axis Galvo scanner and a YOLOv8/DeepSORT vision pipeline to detect and track targets in real-time. The system utilizes advanced control algorithms (PID/LQR/MPC) and sensor fusion (IMU + Camera) to actively counter external vibrations and maintain sub-milliradian precision pointing. A custom OpenGL simulation modeled kinematics for initial algorithm development. The final control system integrity is ensured via a Hardware-in-the-Loop (HIL) testing framework, facilitating a robust simulation-to-real transfer.",
   tags: ["Mechatronics", "Comp Vision", "Control Theory", "C++"],
   videos: ["/videos/open_loop_slow.mp4", "/videos/Physics_engine.webm"],
   image: "/images/spectra.jpeg",
@@ -802,7 +802,7 @@ const ProjectCard = ({
   <div className="group relative bg-white border border-zinc-200 rounded-lg overflow-hidden hover:border-zinc-400 transition-all duration-200 hover:shadow-md">
     <div className="grid md:grid-cols-4 gap-0">
       {/* Image Section */}
-      <div className="md:col-span-1 bg-zinc-100 relative h-56 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200 group-hover:bg-zinc-50 transition-colors">
+      <div className="md:col-span-1 bg-zinc-100 relative h-60 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200 group-hover:bg-zinc-50 transition-colors">
         <img
           src={project.image}
           alt={project.title}
