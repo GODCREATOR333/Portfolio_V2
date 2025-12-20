@@ -64,6 +64,7 @@ const SITE_DATA = {
       "OpenCV",
       "PyTorch/YOLO",
       "Docker",
+      "Git",
     ],
     theory: [
       "Control Systems (PID/LQR)",
@@ -128,8 +129,33 @@ const FREELANCE_WORK: Project[] = [
   },
 ];
 
+// Add this new constant for the Bio-inspired project
+const BIO_INSPIRED_PROJECT: Project = {
+  id: 199, // High priority ID
+  title: "Bio-Inspired Navigation Simulation for GPS-Denied Environments",
+  description:
+    "Visual SLAM fails in featureless warehouses because every aisle looks the same (perceptual aliasing). I built this simulation to validate a solution inspired by Cataglyphis ants: using sparse global orientation cues (like ceiling lights) to correct sensor drift. The project proves that bio-mimetic heading correction enables precise, infrastructure-free navigation where traditional methods struggle.Achieved an 81% reduction in terminal error compared to blind dead-reckoning. Built from scratch using NumPy for vector math and PyQtGraph+OpenGL for 3D visualization.",
+  tags: ["Python", "State Estimation", "Simulation", "PyQtGraph"],
+  // UPDATE THESE PATHS TO YOUR ACTUAL FILES
+  image: "/images/bio-nav.png", 
+  videos: [
+    "/videos/bio-nav-1.webm", 
+    "/videos/bio-nav-3.webm", 
+    "/videos/bio-nav-mode-2.webm"
+  ],
+  year: "Dec 2025",
+  highlight: "FedEx SMART Project",
+  links: [
+    { label: "GitHub", url: "https://github.com/GODCREATOR333/Bio-inspired-Robotics" },
+    { label: "Report", url: "/Resume/Report.pdf" } // Update path
+  ],
+};
+
 // 2. PERSONAL & RESEARCH PROJECTS
 const PERSONAL_PROJECTS: Project[] = [
+
+  BIO_INSPIRED_PROJECT,
+
   {
     id: 201,
     title: "Newsly - AI Verification Agent",
@@ -642,6 +668,76 @@ const About = ({ onPlay }: { onPlay: (videos: string[]) => void }) => (
           </div>
         </div>
 
+        {/* FEATURED PROJECT SECTION */}
+        <div>
+          <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider mb-6 flex items-center gap-2">
+            <span>👨🏻‍💻</span> Most Recent Project
+          </h3>
+          <div className="bg-white border border-zinc-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div className="grid md:grid-cols-2 gap-0">
+              <div className="bg-zinc-100 relative h-48 md:h-auto overflow-hidden border-b md:border-b-0 md:border-r border-zinc-200">
+                <img
+                  src={BIO_INSPIRED_PROJECT.image}
+                  alt={BIO_INSPIRED_PROJECT.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-5 flex flex-col justify-between">
+                <div>
+                  <h4 className="font-bold text-zinc-900 text-lg mb-2">
+                    {BIO_INSPIRED_PROJECT.title}
+                  </h4>
+                  <span className="text-xs font-mono text-zinc-400 border border-zinc-100 px-2 mb-3 rounded">
+                      {BIO_INSPIRED_PROJECT.year}
+                  </span>
+                  <p className="text-xs text-zinc-600 leading-relaxed mb-4 mt-4">
+                    {BIO_INSPIRED_PROJECT.description}
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {BIO_INSPIRED_PROJECT.tags.map((t, i) => (
+                    <span
+                      key={i}
+                      className="text-[10px] border border-zinc-200 px-1.5 py-0.5 rounded text-zinc-500"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* LINKS SECTION WITH WATCH DEMO BUTTON */}
+                <div className="flex gap-4 items-center">
+                  {BIO_INSPIRED_PROJECT.videos && (
+                    <button
+                      onClick={() => onPlay(BIO_INSPIRED_PROJECT.videos!)}
+                      className="text-xs font-bold text-red-600 hover:text-red-700 flex items-center gap-1 bg-white hover:bg-red-100  py-1 rounded transition-colors"
+                    >
+                      <svg
+                        className="w-4 h-4 block shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                      Watch Demos
+                    </button>
+                  )}
+
+                  {BIO_INSPIRED_PROJECT.links.map((link, i) => (
+                    <a
+                      key={i}
+                      href={link.url}
+                      className="text-xs font-bold text-zinc-900 hover:text-blue-600 flex items-center gap-1"
+                    >
+                      {link.label} ↗
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* The Technical skills */}
         <div>
           <h3 className="text-sm font-bold text-zinc-900 uppercase tracking-wider mb-6 flex items-center gap-2">
@@ -1005,7 +1101,7 @@ export default function App() {
 
       <footer className="border-t border-zinc-200 bg-white/50 backdrop-blur-sm mt-12">
         <div className="max-w-5xl mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-zinc-500 font-mono">
-          <p>© {new Date().getFullYear()} S Hari Preetham. Built with React.</p>
+          <p>© {new Date().getFullYear()} S Hari Preetham. Built with Next.js</p>
           <p>
             System Status: <span className="text-green-600">Operational</span>
           </p>
