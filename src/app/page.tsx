@@ -86,10 +86,10 @@ const SITE_DATA = {
 
 const FEATURED_PROJECT = {
   id: 0,
-  title: "Laser-Based Precision Weeder",
+  title: "Real-Time Precision acutation for laser steering application with active vibration compensation.",
   role: "Current Focus",
   description:
-    "This project developed a real-time, active line-of-sight stabilization and pointing system for precision laser beam steering applications, such as Unmanned Combat Air Systems (UCAS) or agricultural laser weeding. This is achieved by using a custom 2-axis Galvo scanner and a YOLOv8/DeepSORT vision pipeline to detect and track targets in real-time. The system utilizes advanced control algorithms (PID/LQR/MPC) and sensor fusion (IMU + Camera) to actively counter external vibrations and maintain sub-milliradian precision pointing. A custom OpenGL simulation modeled kinematics for initial algorithm development. The final control system integrity is ensured via a Hardware-in-the-Loop (HIL) testing framework, facilitating a robust simulation-to-real transfer.",
+    "This project developed a real-time, active line-of-sight stabilization and pointing system for precision laser beam steering applications, such as Unmanned Combat Air Systems (UCAS) or agricultural laser weeding. This is achieved by using a custom 2-axis Galvo scanner and a YOLOv8/DeepSORT vision pipeline to detect and track targets in real-time. The system utilizes advanced control algorithms (PID/LQR) and sensor fusion (IMU + Camera) to actively counter external vibrations and maintain sub-milliradian precision pointing. A custom OpenGL simulation modeled kinematics for initial algorithm development. The final control system integrity is ensured via a Hardware-in-the-Loop (HIL) testing framework, facilitating a robust simulation-to-real transfer.",
   tags: ["Mechatronics", "Comp Vision", "Control Theory", "C++"],
   videos: ["/videos/open_loop_slow.mp4", "/videos/Physics_engine.webm"],
   image: "/images/spectra.jpeg",
