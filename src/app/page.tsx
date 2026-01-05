@@ -40,7 +40,7 @@ const SITE_DATA = {
   github: "https://github.com/godcreator333",
   linkedin: "https://www.linkedin.com/in/hari-preetham-934789201/",
   location: "Hyderabad, India",
-  bio: `I'm a mechanical engineer obsessed with building robots that work in the real world. My work spans precision mechatronics, real-time control systems, and computer vision—turning math and physics into machines that sense, adapt, and act reliably. I can combine mechanical engineering fundamentals with low-level software to model, control, or optimize real machinery.`,
+  bio: `Data-driven Mechanical Engineer focused on precision mechatronics and control systems for Robotics/Automation Platforms. Experienced in developing sensor fusion pipelines, 3D localization systems, and real-time control algorithms for bridging mechanical domain knowledge with software engineering for intelligent physical systems.`,
 
   currently: {
     building: "Laser weeding robot (Active Vibration Compensation)",
@@ -121,7 +121,7 @@ const FREELANCE_WORK: Project[] = [
     title: "Healthcare CMS Platform (Healtour)",
     description:
       "Head of Development (Freelance). Built and deployed a CMS platform with advanced search/filter for treatments, doctors, and hospitals.Added features: keyword search, live chat, customizable webpages, automated confirmations, bulkupload/export.Developed a wellness e-commerce platform with Razorpay integration and heatmap analytics for userbehavior.",
-    tags: ["Freelance", "System Design", "PHP/SQL", "Analytics"],
+    tags: ["Freelance", "System Design", "PHP/SQL", "Full-Stack Development"],
     image: "/images/healtour.jpeg",
     year: "May 2024",
     links: [{ label: "Live Site", url: "https://healtourin.com/" }],
@@ -132,9 +132,12 @@ const FREELANCE_WORK: Project[] = [
 // Add this new constant for the Bio-inspired project
 const BIO_INSPIRED_PROJECT: Project = {
   id: 199, // High priority ID
-  title: "Bio-Inspired Navigation Simulation for GPS-Denied Environments",
+  title: "Bio-Inspired Navigation Simulation for Feature-less Environments.",
   description:
-    "Visual SLAM fails in featureless warehouses because every aisle looks the same (perceptual aliasing). I built this simulation to validate a solution inspired by Cataglyphis ants: using sparse global orientation cues (like ceiling lights) to correct sensor drift. The project proves that bio-mimetic heading correction enables precise, infrastructure-free navigation where traditional methods struggle.Achieved an 81% reduction in terminal error compared to blind dead-reckoning. Built from scratch using NumPy for vector math and PyQtGraph+OpenGL for 3D visualization.",
+    "Visual SLAM fails in featureless warehouses because every aisle looks the same (perceptual aliasing). Built this simulation to validate a solution inspired by Cataglyphis ants: using sparse global orientation cues (like ceiling lights) to correct sensor drift. " +
+    "Implemented an EKF state estimator to fuse noisy odometry with spectral compass readings, propagating a 3x3 covariance matrix to track uncertainty and model Gaussian sensor noise. " +
+    "Made the simulation RL-ready using Gymnasium and tested with PPO agents to learn navigation policies that exploit the bio-mimetic heading correction. " +
+    "Achieved an 81% reduction in terminal error compared to blind dead-reckoning, proving that bio-mimetic heading correction enables precise, infrastructure-free navigation where traditional methods struggle. Built from scratch using NumPy for vector math and PyQtGraph+OpenGL for 3D visualization.",
   tags: ["Python", "State Estimation", "Simulation", "PyQtGraph"],
   // UPDATE THESE PATHS TO YOUR ACTUAL FILES
   image: "/images/bio-nav.png", 
@@ -223,9 +226,9 @@ const PERSONAL_PROJECTS: Project[] = [
     id: 205,
     title: "DIY Motion Capture",
     description:
-      "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction of robot dynamics.",
+      "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction to implement system identification techniques on captured motion data to characterize dynamic behavior",
     tags: ["Computer Vision", "Calibration", "System ID"],
-    image: "/images/mocap.png",
+    image: "/images/mocap1.png",
     year: "2023",
     links: [],
     highlight: "Research Tool",
