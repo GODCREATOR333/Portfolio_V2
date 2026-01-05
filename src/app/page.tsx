@@ -91,7 +91,7 @@ const FEATURED_PROJECT = {
   description:
     "This project developed a real-time, active line-of-sight stabilization and pointing system for precision laser beam steering applications, such as Unmanned Combat Air Systems (UCAS) or agricultural laser weeding. This is achieved by using a custom 2-axis Galvo scanner and a YOLOv8/DeepSORT vision pipeline to detect and track targets in real-time. The system utilizes advanced control algorithms (PID/LQR) and sensor fusion (IMU + Camera) to actively counter external vibrations and maintain sub-milliradian precision pointing. A custom OpenGL simulation modeled kinematics for initial algorithm development. The final control system integrity is ensured via a Hardware-in-the-Loop (HIL) testing framework, facilitating a robust simulation-to-real transfer.",
   tags: ["Mechatronics", "Comp Vision", "Control Theory", "C++"],
-  videos: ["/videos/open_loop_slow.mp4", "/videos/Physics_engine.webm"],
+  videos: ["/videos/open_loop_slow.mp4", "/videos/Physics_engine.webm","/images/cir1.jpeg","/images/8.PNG","/images/tia-schematic.png","/images/9.PNG",],
   image: "/images/spectra.jpeg",
   year: "2024-Present",
   links: [
@@ -287,47 +287,80 @@ const VideoModal = ({
 }: {
   videos: string[];
   onClose: () => void;
-}) => (
-  <div
-    className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200"
-    onClick={onClose}
-  >
-    <div
-      className="relative w-full max-w-5xl bg-zinc-900 rounded-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex justify-between items-center p-4 border-b border-zinc-800 bg-zinc-900">
-        <h3 className="text-white font-mono text-sm">Media Player</h3>
-        <button
-          onClick={onClose}
-          className="text-zinc-400 hover:text-white transition-colors"
-        >
-          ✕ Close
-        </button>
-      </div>
+}) => {
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
 
+  return (
+    <div
+      className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 animate-in fade-in duration-200"
+      onClick={onClose}
+    >
       <div
-        className={`overflow-y-auto p-4 bg-black grid gap-4 ${
-          videos.length > 1 ? "grid-cols-1 md:grid-cols-2" : "grid-cols-1"
-        }`}
+        className="relative w-full max-w-6xl bg-zinc-900 rounded-lg shadow-2xl flex flex-col max-h-[95vh] sm:max-h-[90vh]"
+        onClick={(e) => e.stopPropagation()}
       >
-        {videos.map((vid, i) => (
-          <div
-            key={i}
-            className="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900"
+        {/* Header - Fixed */}
+        <div className="flex justify-between items-center p-3 sm:p-4 border-b border-zinc-800 bg-zinc-900 shrink-0">
+          <h3 className="text-white font-mono text-xs sm:text-sm">Media Player</h3>
+          <button
+            onClick={onClose}
+            className="text-zinc-400 hover:text-white transition-colors text-sm sm:text-base px-2"
           >
-            <video
-              src={vid}
-              controls
-              autoPlay={i === 0}
-              className="w-full h-auto"
-            />
+            ✕ Close
+          </button>
+        </div>
+
+        {/* Scrollable Content Area */}
+        <div className="overflow-y-auto overflow-x-hidden p-3 sm:p-4 md:p-6 bg-black">
+          <div
+            className={`grid gap-3 sm:gap-4 ${
+              videos.length === 1
+                ? "grid-cols-1"
+                : videos.length === 2
+                ? "grid-cols-1 lg:grid-cols-2"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-2"
+            }`}
+          >
+            {videos.map((src, i) => {
+              const isImage = src.match(/\.(png|jpg|jpeg|webp)$/i);
+
+              return (
+                <div
+                  key={i}
+                  className="rounded-lg overflow-hidden border border-zinc-800 bg-zinc-900"
+                >
+                  {isImage ? (
+                    <img
+                      src={src}
+                      alt={`Demo ${i + 1}`}
+                      className="w-full h-auto object-contain"
+                    />
+                  ) : (
+                    <video
+                      src={src}
+                      controls
+                      autoPlay={i === 0}
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-auto"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
-        ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 // ============================================
 // MAIN SECTIONS
