@@ -161,6 +161,36 @@ const PERSONAL_PROJECTS: Project[] = [
 
   {
     id: 201,
+    title: "Real-Time Multi Camera Motion Capture and 3D Localization",
+    description:
+      "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction to implement system identification techniques on captured motion data to characterize dynamic behavior",
+    tags: ["Computer Vision", "Calibration", "System ID"],
+    image: "/images/mocap1.png",
+    year: "2023",
+    links: [],
+    highlight: "Research Tool",
+  },
+
+  {
+    id: 203,
+    title: "ROS2 Visual Processor",
+    description:
+      "Real-time vision stack for robotics. Integrated YOLOv8 with ROS2 and WebRTC for ~15ms inference latency for remote operated robots to transmit video feed and perform realtime object detection and segmentation.",
+    tags: ["ROS2", "CUDA", "Real-Time Linux", "SLAM"],
+    image: "/images/ros2_e2e.png",
+    videos: ["/videos/ros2.mp4"],
+    year: "2024",
+    links: [
+      {
+        label: "Github",
+        url: "https://github.com/GODCREATOR333/ROS2_E2E_VisualProcessor",
+      },
+    ],
+    highlight: "YOLO on ROS2",
+  },
+
+  {
+    id: 209,
     title: "Newsly - AI Verification Agent",
     description:
       "Newsly is a self-hosted, AI-powered news aggregation and verification platform designed to combat misinformation and promote accountability. By leveraging a multi-agent system, Newsly scrapes news from various sources, cross-verifies the information, and generates reliable articles and podcasts. The system is designed to ensure transparency in reporting by tracking statements from politicians, crime justice statuses, and other critical societal topics.",
@@ -189,23 +219,6 @@ const PERSONAL_PROJECTS: Project[] = [
     highlight: "Vector Search Engine",
   },
   {
-    id: 203,
-    title: "ROS2 Visual Processor",
-    description:
-      "Real-time vision stack for robotics. Integrated YOLOv8 with ROS2 and WebRTC for ~15ms inference latency for remote operated robots to transmit video feed and perform realtime object detection and segmentation.",
-    tags: ["ROS2", "CUDA", "Real-Time Linux", "SLAM"],
-    image: "/images/ros2_e2e.png",
-    videos: ["/videos/ros2.mp4"],
-    year: "2024",
-    links: [
-      {
-        label: "Github",
-        url: "https://github.com/GODCREATOR333/ROS2_E2E_VisualProcessor",
-      },
-    ],
-    highlight: "YOLO on ROS2",
-  },
-  {
     id: 204,
     title:
       "Simulation of Aero-theromodynamic parameters for Missile Applications (DRDO)",
@@ -221,17 +234,6 @@ const PERSONAL_PROJECTS: Project[] = [
       },
     ],
     highlight: "Defense Research",
-  },
-  {
-    id: 205,
-    title: "DIY Motion Capture",
-    description:
-      "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction to implement system identification techniques on captured motion data to characterize dynamic behavior",
-    tags: ["Computer Vision", "Calibration", "System ID"],
-    image: "/images/mocap1.png",
-    year: "2023",
-    links: [],
-    highlight: "Research Tool",
   },
   {
     id: 206,
