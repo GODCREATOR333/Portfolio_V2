@@ -166,7 +166,7 @@ const PERSONAL_PROJECTS: Project[] = [
       "Indoor motion capture setup using high-speed PS3 Eye cameras. Performed intrinsic/extrinsic calibration and explored epipolar geometry for 3D reconstruction to implement system identification techniques on captured motion data to characterize dynamic behavior",
     tags: ["Computer Vision", "Calibration", "System ID"],
     image: "/images/mocap1.png",
-    year: "2023",
+    year: "2025",
     links: [],
     highlight: "Research Tool",
   },
@@ -196,7 +196,7 @@ const PERSONAL_PROJECTS: Project[] = [
       "Newsly is a self-hosted, AI-powered news aggregation and verification platform designed to combat misinformation and promote accountability. By leveraging a multi-agent system, Newsly scrapes news from various sources, cross-verifies the information, and generates reliable articles and podcasts. The system is designed to ensure transparency in reporting by tracking statements from politicians, crime justice statuses, and other critical societal topics.",
     tags: ["Autogen", "LLMs", "RAG", "Docker", "Python"],
     image: "/images/newsly.png",
-    year: "2024",
+    year: "2025",
     links: [
       { label: "Github", url: "https://github.com/GODCREATOR333/Newsly" },
     ],
